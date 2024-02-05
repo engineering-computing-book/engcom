@@ -3,14 +3,22 @@ import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
 import pathlib
 import os
+import sys
+import inspect
 import pypandoc
 
 class Publication:
-    def __init__(self, source_filename, title, author, source_kind="script"):
+    def __init__(self, title, author, source_filename=None, source_kind="script"):
         self.title = title
         self.author = author
+        if not source_filename: # Then use the calling file
+            source_filename = pathlib.Path(
+                inspect.getframeinfo(sys._getframe(1)).filename
+            )
+        self.subtitle = "Source Filename: "\
+            + f"{source_filename.parent.stem}/{source_filename.name}"
         self.source_kind = source_kind
-        self.source_filename = pathlib.Path(source_filename)
+        self.source_filename = source_filename
         self.basename = self.basenamer(source_filename)
         self.jupytext = jupytext.read(source_filename)
         if source_kind == "script":
@@ -62,6 +70,7 @@ class Publication:
                 extra_args = [
                     "--reference-doc", str(self.reference_doc_absolute_path()),
                     f"--metadata=title:{self.title}",
+                    f"--metadata=subtitle:{self.subtitle}",
                     f"--metadata=author:{self.author}",
                 ]
                 output = pypandoc.convert_file(
