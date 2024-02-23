@@ -6,6 +6,7 @@ import os
 import sys
 import inspect
 import pypandoc
+import docx2pdf  # Requires MS Word
 
 class Publication:
     def __init__(self, title, author, source_filename=None, source_kind="script"):
@@ -26,7 +27,7 @@ class Publication:
             self.basename = self.basenamer(source_filename)
             self.jupytext = jupytext.read(source_filename)
             if source_kind == "script":
-                self.write(to="ipynb-tmp")
+                self.write(to="ipynb-tmp", tmp=True, clean=False)
                 self.pypandoc = pypandoc.convert_file(f".tmp_{self.basename}.ipynb", 'rst')
                 self.cleanup()
             elif source_kind == "ipynb":
@@ -38,7 +39,7 @@ class Publication:
         return pathlib.Path(filename).stem
     
     def run(self):
-        self.write(to="ipynb-tmp")
+        self.write(to="ipynb-tmp", tmp=True, clean=False)
         with open(f".tmp_{self.basename}.ipynb") as f:
             nb = nbformat.read(f, as_version=4)
         ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
@@ -52,27 +53,35 @@ class Publication:
     def reference_doc_absolute_path(self):
         return pathlib.Path(__file__).parent / "pandoc_reference.docx"
         
-    def write(self, to):
+    def write(self, to: str, pdflatex=False, tmp=False, clean=True):
         if self.nowrite:
             return None
         else:
+            if tmp:
+                tmp_str = ".tmp_"
+            else:
+                tmp_str = ""
             if to == "ipynb":
-                jupytext.write(self.jupytext, f"{self.basename}_pub.ipynb")
+                jupytext.write(self.jupytext, f"{tmp_str}{self.basename}_pub.ipynb")
             elif to == "ipynb-tmp":
-                jupytext.write(self.jupytext, f".tmp_{self.basename}.ipynb")
+                jupytext.write(self.jupytext, f"{tmp_str}{self.basename}.ipynb")
             elif to == "md" or to == "pdf" or to == "docx":
                 self.run()
-                tmp_nb_executed = f".tmp_{self.basename}_executed.ipynb"
+                tmp_nb_executed = f"{tmp_str}{self.basename}_executed.ipynb"
                 if to == "md":
-                    self.write(to="ipynb-tmp")
-                    output = pypandoc.convert_file(tmp_nb_executed, 'md', outputfile=f"{self.basename}_pub.md")
+                    self.write(to="ipynb-tmp", tmp=True, clean=False)
+                    output = pypandoc.convert_file(tmp_nb_executed, 'md', outputfile=f"{tmp_str}{self.basename}_pub.md")
                     assert output == ""
                 elif to == "pdf":
-                    self.write(to="ipynb-tmp")
-                    output = pypandoc.convert_file(tmp_nb_executed, 'pdf', outputfile=f"{self.basename}_pub.pdf")
-                    assert output == ""
+                    if pdflatex:
+                        self.write(to="ipynb-tmp", tmp=True, clean=False)
+                        output = pypandoc.convert_file(tmp_nb_executed, 'pdf', outputfile=f"{tmp_str}{self.basename}_pub.pdf")
+                        assert output == ""
+                    else:
+                        self.write(to="docx", tmp=True, clean=False)
+                        docx2pdf.convert(f"{tmp_str}{self.basename}_pub.docx", f"{tmp_str}{self.basename}_pub.pdf")
                 elif to == "docx":
-                    self.write(to="ipynb-tmp")
+                    self.write(to="ipynb-tmp", tmp=True, clean=False)
                     filters = [str(self.filter_absolute_path())]
                     extra_args = [
                         "--reference-doc", str(self.reference_doc_absolute_path()),
@@ -80,18 +89,21 @@ class Publication:
                         f"--metadata=subtitle:{self.subtitle}",
                         f"--metadata=author:{self.author}",
                     ]
+                    print(f"{tmp_str}{self.basename}_pub.docx")
                     output = pypandoc.convert_file(
                         tmp_nb_executed, 'docx', 
-                        outputfile=f"{self.basename}_pub.docx",
+                        outputfile=f"{tmp_str}{self.basename}_pub.docx",
                         extra_args=extra_args,
                         filters=filters
                     )
                     assert output == ""
             else:
                 raise ValueError(f"Unkown target (to) format: {to}")
+            if clean:
+                self.cleanup()
         
     def cleanup(self):
-        for filename in pathlib.Path(".").glob(".tmp_{self.basename}*"):
+        for filename in pathlib.Path(".").glob(".tmp*"):
             filename.unlink()
     
     def is_notebook(self) -> bool:
