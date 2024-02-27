@@ -109,7 +109,13 @@ def ideal_gas(
             std = 0.01 * (np.max(P) - np.min(P))
         P = P + std * np.random.standard_normal(P.shape)
     return {
-        "temperature": T,
         "volume": V,
+        "temperature": T,
         "pressure": P,
     }
+
+def movie_ratings_binned():
+    """The author's movie rating frequencies for 89 movies, 
+    in 10 bins of size 1 from 0-10
+    """
+    return np.array([0, 1, 6, 6, 18, 18, 20, 13, 5, 2])
