@@ -1,1 +1,1 @@
-from .publish import *
+from .publication import *

@@ -141,14 +141,16 @@ def plot(x, y,
     return fig, ax
 
 def bar(x, y,
-    axis=0, 
+    orientation="vertical",  # or "horizontal"
     xlabel=None, 
     ylabel=None, 
-    labels=None, 
+    labels=None,
     save=False, 
-    figsize=(5,5/1.618), 
+    figsize=(4.8,4.8/1.618), 
     barsize=0.6,
+    align="center",
     color="black",
+    histogram=False,
 ):
     if save:
         if "matplotlib" in sys.modules:
@@ -169,30 +171,50 @@ def bar(x, y,
     else:
         import matplotlib as mpl
         import matplotlib.pyplot as plt
+    if histogram:
+        barsize = 1  # Override barsize
+    x = np.array(x)
+    y = np.array(y)
     fig, ax = plt.subplots()
-    for i in range(y.shape[(axis+1)%2]):
-        yi = y.take(indices=i,axis=(axis+1)%2)
-        ax.bar(x, y, color=color, width=barsize)
+    if orientation == "vertical":
+        ax.bar(x, y, color=color, width=barsize, align=align)
+    elif orientation == "horizontal":
+        ax.barh(y, x, color=color, height=barsize, align=align)
+    else:
+        raise(NotImplemented(f"Orientation {orientation} not implemented"))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    # ... TODO incomplete
-    # if locator:
-    #     ax.yaxis.set_major_locator(
-    #         matplotlib.ticker.MultipleLocator(base=locator)
-    #     )
-    # ax.tick_params(direction="in")
-    # if xlabel:
-    #     ax.set_xlabel(xlabel, loc="right")
-    # if ylabel:
-    #     ax.text(x=0, y=1.0, s=ylabel, transform=ax.transAxes)
-    # if legend:
-    #     for i in range(y.shape[(axis+1)%2]):
-    #         yi = y.take(indices=i,axis=(axis+1)%2).flatten()
-    #         ax.text(x=x[-1], y=yi[-1], s=f"\\ \\ \\ {legend[i]}", verticalalignment="center")
-    # if save:
-    #     plt.savefig(save,bbox_inches='tight')
-    # return fig, ax
+    if orientation == "vertical":
+        ax.spines['left'].set_visible(False)
+        ax.set_xticks(x)
+    elif orientation == "horizontal":
+        ax.spines['bottom'].set_visible(False)
+        ax.set_yticks(y)
+    elif histogram:
+        xf = x.flatten()
+        dx = x[-1] - x[-2]
+        xtra = np.concatenate((x, np.array([x[-1] + dx])))
+        ax.set_xticks(xtra)
+    if labels is not None:
+        if orientation == "vertical":
+            ax.set_xticklabels(labels)
+        elif orientation == "horizontal":
+            ax.set_yticklabels(labels)
+    # ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(decimals=0))
+    if ylabel:
+        ax.text(x=0, y=1.0, s=ylabel, transform=ax.transAxes)
+    if xlabel:
+        ax.annotate(f"{xlabel}", xy=(1, 0), xycoords="axes fraction", xytext=(0, 3), textcoords='offset points', horizontalalignment="right", verticalalignment="bottom")
+    ax.tick_params(bottom=False, left=False)
+    if orientation == "vertical":
+        ax.yaxis.grid(color='white', linewidth=1)
+    elif orientation == "horizontal":
+        ax.xaxis.grid(color='white', linewidth=1)
+    if barsize == 1:
+        if orientation == "vertical":
+            ax.xaxis.grid(color='white', linewidth=2)
+        elif orientation == "horizontal":
+            ax.yaxis.grid(color='white', linewidth=2)
+    if save:
+        plt.savefig(save,bbox_inches='tight')
+    return fig, ax
