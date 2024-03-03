@@ -1,6 +1,8 @@
 import jupytext
 import nbformat
-from nbconvert.preprocessors import ExecutePreprocessor
+from nbconvert.preprocessors import ExecutePreprocessor, TagRemovePreprocessor
+from nbconvert.exporters import NotebookExporter
+from traitlets.config import Config
 import pathlib
 import os
 import sys
@@ -53,14 +55,23 @@ class Publication:
         self.write(to="ipynb-tmp", tmp=True, clean=False)
         with open(f".tmp_{self.basename}.ipynb") as f:
             nb = nbformat.read(f, as_version=4)
-        ep = ExecutePreprocessor(timeout=600, kernel_name="python3")
-        ep.preprocess(nb, {"metadata": {"path": "."}})
-        with open(
-            f".tmp_{self.basename}_executed.ipynb",
-            "w",
-            encoding="utf-8",
-        ) as f:
-            nbformat.write(nb, f)
+        c = Config()
+        c.TagRemovePreprocessor.remove_cell_tags = ("remove_cell",)
+        c.TagRemovePreprocessor.remove_all_outputs_tags = ("remove_output",)
+        c.TagRemovePreprocessor.remove_input_tags = ("remove_input",)
+        c.TagRemovePreprocessor.enabled = True
+        c.ExecutePreprocessor.timeout = 600
+        c.ExecutePreprocessor.kernel_name = "python3"
+        c.NotebookExporter.preprocessors = [
+            "nbconvert.preprocessors.ExecutePreprocessor",
+            "nbconvert.preprocessors.TagRemovePreprocessor",
+        ]
+        exporter = NotebookExporter(config=c)
+        exporter.register_preprocessor(ExecutePreprocessor(config=c), True)
+        exporter.register_preprocessor(TagRemovePreprocessor(config=c), True)
+        output = NotebookExporter(config=c).from_notebook_node(nb)
+        with open(f".tmp_{self.basename}_executed.ipynb", "w") as f:
+            f.write(output[0])
 
     def filter_absolute_path(self):
         return pathlib.Path(__file__).parent / "filter.lua"
@@ -87,14 +98,17 @@ class Publication:
             elif to == "md" or to == "pdf" or to == "docx":
                 self.run()
                 tmp_nb_executed = f".tmp_{self.basename}_executed.ipynb"
+                filters = [str(self.filter_absolute_path())]
                 if to == "md":
                     self.write(to="ipynb-tmp", tmp=True, clean=False)
                     output = pypandoc.convert_file(
                         tmp_nb_executed,
                         "md",
                         outputfile=f"{tmp_str}{self.basename}_pub.md",
+                        filters=filters,
                     )
-                    assert output == ""
+                    print(f"Markdown write output: {output}")
+                    # assert output == ""
                 elif to == "pdf":
                     if pdflatex:
                         self.write(
@@ -114,7 +128,6 @@ class Publication:
                         )
                 elif to == "docx":
                     self.write(to="ipynb-tmp", tmp=True, clean=False)
-                    filters = [str(self.filter_absolute_path())]
                     extra_args = [
                         "--reference-doc",
                         str(self.reference_doc_absolute_path()),

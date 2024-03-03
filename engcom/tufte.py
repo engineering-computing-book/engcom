@@ -5,27 +5,6 @@ import matplotlib.pyplot as plt
 import importlib
 import sys
 
-# mpl.use("pgf")
-# plt.rcParams.update({
-#     "pgf.texsystem": "lualatex",
-#     "font.family": "serif",  # use serif/main font for text elements
-#     "text.usetex": True,     # use inline math for ticks
-#     "pgf.rcfonts": False,    # don't setup fonts from rc parameters
-#     "pgf.preamble": "\n".join([
-#          r"\RequirePackage[T1]{fontenc}%",
-#          r"\usepackage{newpxmath} % math font is Palatino compatible",
-#          r"\let\Bbbk\relax % so it doesn't clash with amssymb",
-#          r"\usepackage[no-math]{fontspec}",
-#          r"\setmainfont{Palatino}",
-#          r"\setmonofont{Latin Modern Mono}[%",
-#          r"Scale=1.05, % a touch smaller than MatchLowercase",
-#          r"BoldFont=*,",
-#          r"BoldFeatures={FakeBold=2}",
-#          r"]",
-#          r"\setsansfont{Helvetica}",
-#     ])
-# })
-
 params = {
     "pgf.texsystem": "lualatex",
     "font.family": "serif",  # use serif/main font for text elements
@@ -41,6 +20,11 @@ params = {
     "legend.fontsize": 8,   
     "xtick.labelsize": 8,
     "ytick.labelsize": 8,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "xaxis.labellocation": "right",
+    "xtick.direction": "in",
+    "ytick.direction": "in",
     "text.usetex": False,     # use inline math for ticks
     "pgf.preamble": "\n".join([
          r"\RequirePackage[T1]{fontenc}%",
@@ -58,6 +42,24 @@ params = {
     ])
 }
 
+def mpl_params_load():
+    if "matplotlib" in sys.modules:
+        # print("reloading mpl")
+        importlib.reload(matplotlib)
+        mpl = matplotlib
+    else:
+        import matplotlib as mpl
+    mpl.use('pgf') # Use the pgf backend (must be set before pyplot imported)
+    if "matplotlib.pyplot" in sys.modules:
+        # print("reloading plt")
+        importlib.reload(matplotlib.pyplot)
+        plt = matplotlib.pyplot
+    else:
+        import matplotlib.pyplot as plt
+    plt.rcParams.update(params)
+
+mpl_params_load()  # Runs when module is loaded
+
 def plot(x, y, 
     locator=None, 
     axis=0, 
@@ -67,7 +69,7 @@ def plot(x, y,
     legend=None, 
     legendloc="outside right",
     save=False, 
-    figsize=(5,5/1.618), 
+    figsize=(4.8,4.8/1.618), 
     dotsize=10,
     color="black",
     points=True,
@@ -75,21 +77,7 @@ def plot(x, y,
     xticks=None,
 ):
     if save:
-        if "matplotlib" in sys.modules:
-            print("reloading mpl")
-            importlib.reload(matplotlib)
-            mpl = matplotlib
-        else:
-            import matplotlib as mpl
-        mpl.use('pgf') # Use the pgf backend (must be set before pyplot imported)
-        if "matplotlib.pyplot" in sys.modules:
-            print("reloading plt")
-            importlib.reload(matplotlib.pyplot)
-            plt = matplotlib.pyplot
-        else:
-            import matplotlib.pyplot as plt
-        plt.rcParams.update(params)
-        plt.rcParams["figure.figsize"] = figsize
+        mpl_params_load(figsize)
     else:
         import matplotlib as mpl
         import matplotlib.pyplot as plt
@@ -115,25 +103,22 @@ def plot(x, y,
             ax.scatter(x, yi, color=colors[i], s=dotsize, zorder=3)
         else:
             ax.plot(x, yi, linestyle="-", color=colors[i], linewidth=1, zorder=1)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
     ax.spines["bottom"].set_bounds(np.min(x), np.max(x))
     ax.spines["left"].set_bounds(np.min(y), np.max(y))
     if locator:
         ax.yaxis.set_major_locator(
             matplotlib.ticker.MultipleLocator(base=locator)
         )
-    ax.tick_params(direction="in")
     if xticks is not None:
         ax.set_xticks(xticks)
     if xlabel:
-        ax.set_xlabel(xlabel, loc="right")
+        ax.set_xlabel(xlabel)
     if ylabel:
-        ax.text(x=0, y=1.0, s=ylabel, transform=ax.transAxes)
+        ax.text(ylabel)
     if labels:
         for i in range(y.shape[(axis+1)%2]):
             yi = y.take(indices=i,axis=(axis+1)%2).flatten()
-            ax.text(x=x[-1], y=yi[-1], s=f"\\ \\ \\ {labels[i]}", verticalalignment="center")
+            ax.annotate(f"{labels[i]}", xy=(x[-1], yi[-1]), xycoords="data", xytext=(3, 0), textcoords='offset points', horizontalalignment="left", verticalalignment="center")
     if legend:
         fig.legend(legend, loc=legendloc)
     if save:
@@ -153,21 +138,7 @@ def bar(x, y,
     histogram=False,
 ):
     if save:
-        if "matplotlib" in sys.modules:
-            print("reloading mpl")
-            importlib.reload(matplotlib)
-            mpl = matplotlib
-        else:
-            import matplotlib as mpl
-        mpl.use('pgf') # Use the pgf backend (must be set before pyplot imported)
-        if "matplotlib.pyplot" in sys.modules:
-            print("reloading plt")
-            importlib.reload(matplotlib.pyplot)
-            plt = matplotlib.pyplot
-        else:
-            import matplotlib.pyplot as plt
-        plt.rcParams.update(params)
-        plt.rcParams["figure.figsize"] = figsize
+        mpl_params_load(figsize)
     else:
         import matplotlib as mpl
         import matplotlib.pyplot as plt

@@ -402,6 +402,12 @@ local function definitioner(el)
 end
 
 local function celler(el)
+  local tags = el.attr.attributes['tags']
+  if tags ~= nil then
+    if tags:find('remove_input') then
+      table.remove(el.c,1) -- Filter out the input part of the cell
+    end
+  end
   -- local text
   local el_walked
   el_walked = pandoc.walk_block(el,interior_filter)
@@ -953,7 +959,6 @@ function Code(el)
     elseif FORMAT:match 'latex' then
       return coder_latex(el)
     else
-      print('\nELSE\n')
       return el
     end
   -- end
@@ -1015,6 +1020,13 @@ end
 function Div(el)
   if el.classes:includes('cell') then
     return celler(el)
+  elseif el.classes:includes('output') and el.classes:includes('display_data') then
+    -- for ipynb images
+    if FORMAT:match('docx') or FORMAT:match('pdf') then
+      return el
+    else
+      return {}
+    end
   elseif el.classes:includes('infobox') then
     return infoboxer(el)
   elseif el.classes:includes('listing') then
