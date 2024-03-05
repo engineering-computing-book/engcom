@@ -1,55 +1,55 @@
-\phantomsection\label{9392308d}
+\phantomsection\label{f7652a3e}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 """"Solution to Chapter 3 problem DN"""
 import numpy as np
 import matplotlib.pyplot as plt
 \end{minted}
 
-\phantomsection\label{dc3eddfd}
+\phantomsection\label{fd92f6de}
 
-\phantomsection\label{77896d88}
+\phantomsection\label{111288b4}
 \subsubsection{Introduction}\label{introduction}
 
 This program defines several mathematical functions as vectorized
 functions that can handle NumPy array inputs and plots them over the
 given domain using Matplotlib.
 
-\phantomsection\label{fcd05e58}
+\phantomsection\label{ac335079}
 \subsubsection{Define Mathematical
 Functions}\label{define-mathematical-functions}
 
 Define $f(x) = x^2 + 3 x + 9$:
 
-\phantomsection\label{6679d09f}
+\phantomsection\label{12bfbd65}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def f(x: np.ndarray) -> np.ndarray:
     return np.tanh(4 * np.sin(x))
 \end{minted}
 
-\phantomsection\label{00b958a0}
+\phantomsection\label{85a19e11}
 Define $g(x) = 1 + \sin^2 x$:
 
-\phantomsection\label{ad25df2a}
+\phantomsection\label{91f761bb}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def g(x: np.ndarray) -> np.ndarray:
     return np.sin(np.sqrt(x))
 \end{minted}
 
-\phantomsection\label{4f643cde}
+\phantomsection\label{39fb9a87}
 Define $h(x, y) = e^{-3 x} + \ln y$:
 
-\phantomsection\label{7ef61da5}
+\phantomsection\label{70b88c82}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def h(x: np.ndarray) -> np.ndarray:
     return np.where(x >= 0, np.exp(-x) * np.sin(2 * np.pi * x), 0)
 \end{minted}
 
-\phantomsection\label{fd33e178}
+\phantomsection\label{ab1a2f18}
 \subsubsection{Plotting}\label{plotting}
 
 Define a plotting function:
 
-\phantomsection\label{f3c13bb1}
+\phantomsection\label{d49ccae9}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def plotter(fig, fun, limits, labels):
     x = np.linspace(limits[0], limits[1], 201)
@@ -59,58 +59,61 @@ def plotter(fig, fun, limits, labels):
     return fig
 \end{minted}
 
-\phantomsection\label{183e64db}
+\phantomsection\label{1f9cc092}
 Plot $f(x)$:
 
-\phantomsection\label{4177c6f7}
+\phantomsection\label{ae14fca3}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 fig, ax = plt.subplots()
 plotter(fig, fun=f, limits=(-5, 8), labels=("$x$", "$f(x)$"))
 \end{minted}
 
-\phantomsection\label{153d3c39}
+\phantomsection\label{76f34bb1}
 \gdef\graphicslist{}%
 \begin{figure}[htbp]
 \centering
 \includegraphics[]{examples/publishing_with_makefile/figure-0.pgf}
-\figcaption[][float]{fig:publishing_with_makefile-figure-0}{}
+\caption{}
+\label{fig:publishing_with_makefile-figure-0}
 \end{figure}
 
-\phantomsection\label{da864b18}
+\phantomsection\label{6e605b5e}
 Plot $g(x)$:
 
-\phantomsection\label{4d361ec9}
+\phantomsection\label{3049ff64}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 fig, ax = plt.subplots()
 plotter(fig, fun=g, limits=(0, 100), labels=("$x$", "$g(x)$"))
 \end{minted}
 
-\phantomsection\label{152a65db}
+\phantomsection\label{fd4bfb5d}
 \gdef\graphicslist{}%
 \begin{figure}[htbp]
 \centering
 \includegraphics[]{examples/publishing_with_makefile/figure-1.pgf}
-\figcaption[][float]{fig:publishing_with_makefile-figure-1}{}
+\caption{}
+\label{fig:publishing_with_makefile-figure-1}
 \end{figure}
 
-\phantomsection\label{20e39314}
+\phantomsection\label{4a022c7a}
 Plot $h(x)$:
 
-\phantomsection\label{e9c07c63}
+\phantomsection\label{feea135a}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 fig, ax = plt.subplots()
 plotter(fig, fun=h, limits=(-2, 6), labels=("$x$", "$h(x)$"))
 \end{minted}
 
-\phantomsection\label{8946a2cf}
+\phantomsection\label{e940f698}
 \gdef\graphicslist{}%
 \begin{figure}[htbp]
 \centering
 \includegraphics[]{examples/publishing_with_makefile/figure-2.pgf}
-\figcaption[][float]{fig:publishing_with_makefile-figure-2}{}
+\caption{}
+\label{fig:publishing_with_makefile-figure-2}
 \end{figure}
 
-\phantomsection\label{6e121eae}
+\phantomsection\label{e2ab5739}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 plt.show()
 \end{minted}

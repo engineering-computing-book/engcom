@@ -868,19 +868,9 @@ function figurer(el,nofloat)
     -- construct latex figure
     fig_tex = graphics_list_reset ..
       fig_begin ..
-      graphics_command ..
-      width ..
-      "]{" .. 
-      src .. 
-      "}\n\\figcaption"..
-      options ..
-      "[" ..
-      nofloat_text ..
-      "]{" ..
-      el.attr.identifier .. 
-      "}{" .. 
-      caption .. 
-      "}\n" .. 
+      graphics_command..width .."]{"..src.."}\n"..
+      "\\caption{"..caption.."}\n"..
+      "\\label{"..el.attr.identifier.."}\n".. 
       fig_end
     return pandoc.RawInline('latex', fig_tex)
   elseif FORMAT:match 'html' then
