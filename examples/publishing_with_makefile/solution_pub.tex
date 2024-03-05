@@ -1,0 +1,116 @@
+\phantomsection\label{9392308d}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+""""Solution to Chapter 3 problem DN"""
+import numpy as np
+import matplotlib.pyplot as plt
+\end{minted}
+
+\phantomsection\label{dc3eddfd}
+
+\phantomsection\label{77896d88}
+\subsubsection{Introduction}\label{introduction}
+
+This program defines several mathematical functions as vectorized
+functions that can handle NumPy array inputs and plots them over the
+given domain using Matplotlib.
+
+\phantomsection\label{fcd05e58}
+\subsubsection{Define Mathematical
+Functions}\label{define-mathematical-functions}
+
+Define $f(x) = x^2 + 3 x + 9$:
+
+\phantomsection\label{6679d09f}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+def f(x: np.ndarray) -> np.ndarray:
+    return np.tanh(4 * np.sin(x))
+\end{minted}
+
+\phantomsection\label{00b958a0}
+Define $g(x) = 1 + \sin^2 x$:
+
+\phantomsection\label{ad25df2a}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+def g(x: np.ndarray) -> np.ndarray:
+    return np.sin(np.sqrt(x))
+\end{minted}
+
+\phantomsection\label{4f643cde}
+Define $h(x, y) = e^{-3 x} + \ln y$:
+
+\phantomsection\label{7ef61da5}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+def h(x: np.ndarray) -> np.ndarray:
+    return np.where(x >= 0, np.exp(-x) * np.sin(2 * np.pi * x), 0)
+\end{minted}
+
+\phantomsection\label{fd33e178}
+\subsubsection{Plotting}\label{plotting}
+
+Define a plotting function:
+
+\phantomsection\label{f3c13bb1}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+def plotter(fig, fun, limits, labels):
+    x = np.linspace(limits[0], limits[1], 201)
+    fig.gca().plot(x, fun(x))
+    fig.gca().set_xlabel(labels[0])
+    fig.gca().set_ylabel(labels[1])
+    return fig
+\end{minted}
+
+\phantomsection\label{183e64db}
+Plot $f(x)$:
+
+\phantomsection\label{4177c6f7}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+fig, ax = plt.subplots()
+plotter(fig, fun=f, limits=(-5, 8), labels=("$x$", "$f(x)$"))
+\end{minted}
+
+\phantomsection\label{153d3c39}
+\gdef\graphicslist{}%
+\begin{figure}[htbp]
+\centering
+\includegraphics[]{examples/publishing_with_makefile/figure-0.pgf}
+\figcaption[][float]{fig:publishing_with_makefile-figure-0}{}
+\end{figure}
+
+\phantomsection\label{da864b18}
+Plot $g(x)$:
+
+\phantomsection\label{4d361ec9}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+fig, ax = plt.subplots()
+plotter(fig, fun=g, limits=(0, 100), labels=("$x$", "$g(x)$"))
+\end{minted}
+
+\phantomsection\label{152a65db}
+\gdef\graphicslist{}%
+\begin{figure}[htbp]
+\centering
+\includegraphics[]{examples/publishing_with_makefile/figure-1.pgf}
+\figcaption[][float]{fig:publishing_with_makefile-figure-1}{}
+\end{figure}
+
+\phantomsection\label{20e39314}
+Plot $h(x)$:
+
+\phantomsection\label{e9c07c63}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+fig, ax = plt.subplots()
+plotter(fig, fun=h, limits=(-2, 6), labels=("$x$", "$h(x)$"))
+\end{minted}
+
+\phantomsection\label{8946a2cf}
+\gdef\graphicslist{}%
+\begin{figure}[htbp]
+\centering
+\includegraphics[]{examples/publishing_with_makefile/figure-2.pgf}
+\figcaption[][float]{fig:publishing_with_makefile-figure-2}{}
+\end{figure}
+
+\phantomsection\label{6e121eae}
+\nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
+plt.show()
+\end{minted}

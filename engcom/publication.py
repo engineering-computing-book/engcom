@@ -42,9 +42,7 @@ class Publication:
                 )
                 self.cleanup()
             elif source_kind == "ipynb":
-                self.pypandoc = pypandoc.convert_file(
-                    source_filename, "rst"
-                )
+                self.pypandoc = pypandoc.convert_file(source_filename, "rst")
             else:
                 raise ValueError(f"Unknown source_kind={source_kind}")
 
@@ -88,14 +86,10 @@ class Publication:
             else:
                 tmp_str = ""
             if to == "ipynb":
-                jupytext.write(
-                    self.jupytext, f"{tmp_str}{self.basename}_pub.ipynb"
-                )
+                jupytext.write(self.jupytext, f"{tmp_str}{self.basename}_pub.ipynb")
             elif to == "ipynb-tmp":
-                jupytext.write(
-                    self.jupytext, f"{tmp_str}{self.basename}.ipynb"
-                )
-            elif to == "md" or to == "pdf" or to == "docx":
+                jupytext.write(self.jupytext, f"{tmp_str}{self.basename}.ipynb")
+            elif to == "md" or to == "pdf" or to == "docx" or to == "tex":
                 self.run()
                 tmp_nb_executed = f".tmp_{self.basename}_executed.ipynb"
                 filters = [str(self.filter_absolute_path())]
@@ -111,9 +105,7 @@ class Publication:
                     # assert output == ""
                 elif to == "pdf":
                     if pdflatex:
-                        self.write(
-                            to="ipynb-tmp", tmp=True, clean=False
-                        )
+                        self.write(to="ipynb-tmp", tmp=True, clean=False)
                         output = pypandoc.convert_file(
                             tmp_nb_executed,
                             "pdf",
@@ -145,6 +137,17 @@ class Publication:
                         filters=filters,
                     )
                     assert output == ""
+                elif to == "tex":
+                    self.write(to="ipynb-tmp", tmp=True, clean=False)
+                    self.write(to="md", tmp=True, clean=False)
+                    output = pypandoc.convert_file(
+                        f".tmp_{self.basename}_pub.md",
+                        "tex",
+                        outputfile=f"{tmp_str}{self.basename}_pub.tex",
+                        filters=filters,
+                    )
+                    print(f"LaTeX write output: {output}")
+                    # assert output == ""
             else:
                 raise ValueError(f"Unkown target (to) format: {to}")
             if clean:

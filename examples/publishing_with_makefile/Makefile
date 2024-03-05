@@ -7,6 +7,9 @@ solution: solution.md
 
 %.md: %.py
 	publish $< md
+
+%.tex: %.py
+	publish $< tex
 	
 %.docx: %.py
 	publish $< docx
