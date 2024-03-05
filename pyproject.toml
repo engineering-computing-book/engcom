@@ -18,6 +18,8 @@ nbconvert = "^7.16.2"
 pypandoc = "^1.13"
 docx2pdf = "^0.1.8"
 ipywidgets = "^8.1.2"
+ipython = "^8.22.2"
+ipykernel = "^6.29.3"
 
 
 [build-system]
