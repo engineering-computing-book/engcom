@@ -2,6 +2,7 @@ import jupytext
 import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor, TagRemovePreprocessor
 from nbconvert.exporters import NotebookExporter
+import nbconvert
 from traitlets.config import Config
 import pathlib
 import os
@@ -70,7 +71,7 @@ class Publication:
         exporter.register_preprocessor(ExecutePreprocessor(config=c), True)
         exporter.register_preprocessor(TagRemovePreprocessor(config=c), True)
         output = NotebookExporter(config=c).from_notebook_node(nb)
-        with open(f".tmp_{self.basename}_executed.ipynb", "w") as f:
+        with open(f".tmp_{self.basename}_executed.ipynb", "w", encoding="utf-8") as f:
             f.write(output[0])
 
     def filter_absolute_path(self):
@@ -79,7 +80,7 @@ class Publication:
     def reference_doc_absolute_path(self):
         return pathlib.Path(__file__).parent / "pandoc_reference.docx"
 
-    def write(self, to: str, pdflatex=False, tmp=False, clean=True):
+    def write(self, to: str, pdflatex=False, tmp=False, clean=False):
         if self.nowrite:
             return None
         else:
@@ -95,7 +96,7 @@ class Publication:
                 jupytext.write(
                     self.jupytext, f"{tmp_str}{self.basename}.ipynb"
                 )
-            elif to == "md" or to == "pdf" or to == "docx":
+            elif to == "md" or to == "pdf" or to == "docx" or to == "tex":
                 self.run()
                 tmp_nb_executed = f".tmp_{self.basename}_executed.ipynb"
                 filters = [str(self.filter_absolute_path())]
@@ -145,6 +146,17 @@ class Publication:
                         filters=filters,
                     )
                     assert output == ""
+                elif to == "tex":
+                    self.write(to="ipynb-tmp", tmp=True, clean=False)
+                    self.write(to="md", tmp=True, clean=False)
+                    output = pypandoc.convert_file(
+                        f".tmp_{self.basename}_pub.md",
+                        "tex",
+                        outputfile=f"{tmp_str}{self.basename}_pub.tex",
+                        filters=filters,
+                    )
+                    print(f"LaTeX write output: {output}")
+                    # assert output == ""
             else:
                 raise ValueError(f"Unkown target (to) format: {to}")
             if clean:

@@ -29,4 +29,5 @@ def show(fig, filename=None, caption="", label=None, figsize=(4, 4/1.618)):
     plt.savefig(filename, bbox_inches='tight')
     if label is None:
         label = f"fig:{parent}-{filename.stem}"
-    return figure_markup(f"{grandparent}/{parent}/{filename}", caption, label)
+    markup = figure_markup(f"{grandparent}/{parent}/{filename}", caption, label)
+    return markup
