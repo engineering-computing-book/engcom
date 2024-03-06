@@ -821,12 +821,8 @@ function figurer(el,nofloat)
     end
     -- reset \graphicslist{}
     graphics_list_reset = "\\gdef\\graphicslist{}%\n"
-    -- see if standalone
-    if el.classes:includes('standalone') then
-      graphics_command = "\\noindent\\includestandalone["
-    else
-      graphics_command = "\\includegraphics["
-    end
+    -- graphics command
+    graphics_command = "\\begin{tikzpicture}%\n\\node[inner sep=0pt] {\\input{"..src.."}};%\n\\end{tikzpicture}%"
     -- get figcaption options
     figcaption_keys = {"color","format","credit","permission","reprint","territory","language","edition","fair","publicity","size","permissioncomment","layoutcomment"}
     options = "["
@@ -868,7 +864,7 @@ function figurer(el,nofloat)
     -- construct latex figure
     fig_tex = graphics_list_reset ..
       fig_begin ..
-      graphics_command..width .."]{"..src.."}\n"..
+      graphics_command.."\n"..
       "\\caption{"..caption.."}\n"..
       "\\label{"..el.attr.identifier.."}\n".. 
       fig_end
