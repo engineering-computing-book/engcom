@@ -77,7 +77,7 @@ class Publication:
     def reference_doc_absolute_path(self):
         return pathlib.Path(__file__).parent / "pandoc_reference.docx"
 
-    def write(self, to: str, pdflatex=False, tmp=False, clean=True):
+    def write(self, to: str, pdflatex=True, tmp=False, clean=True):
         if self.nowrite:
             return None
         else:
