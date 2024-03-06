@@ -86,7 +86,7 @@ class Publication:
             else:
                 tmp_str = ""
             if to == "ipynb":
-                jupytext.write(self.jupytext, f"{tmp_str}{self.basename}_pub.ipynb")
+                jupytext.write(self.jupytext, f"{tmp_str}{self.basename}.ipynb")
             elif to == "ipynb-tmp":
                 jupytext.write(self.jupytext, f"{tmp_str}{self.basename}.ipynb")
             elif to == "md" or to == "pdf" or to == "docx" or to == "tex":
@@ -98,25 +98,32 @@ class Publication:
                     output = pypandoc.convert_file(
                         tmp_nb_executed,
                         "md",
-                        outputfile=f"{tmp_str}{self.basename}_pub.md",
+                        outputfile=f"{tmp_str}{self.basename}.md",
                         filters=filters,
                     )
                     print(f"Markdown write output: {output}")
                     # assert output == ""
                 elif to == "pdf":
                     if pdflatex:
+                        extra_args = []
+                        if self.title is not None:
+                            extra_args.append(f"--metadata=title:{self.title}")
+                            extra_args.append(f"--metadata=subtitle:{self.subtitle}")
+                        if self.author is not None:
+                            extra_args.append(f"--metadata=author:{self.author}")
                         self.write(to="ipynb-tmp", tmp=True, clean=False)
                         output = pypandoc.convert_file(
                             tmp_nb_executed,
                             "pdf",
-                            outputfile=f"{tmp_str}{self.basename}_pub.pdf",
+                            outputfile=f"{tmp_str}{self.basename}.pdf",
+                            extra_args=extra_args,
                         )
                         assert output == ""
                     else:
                         self.write(to="docx", tmp=True, clean=False)
                         docx2pdf.convert(
-                            f".tmp_{self.basename}_pub.docx",
-                            f"{self.basename}_pub.pdf",
+                            f".tmp_{self.basename}.docx",
+                            f"{self.basename}.pdf",
                         )
                 elif to == "docx":
                     self.write(to="ipynb-tmp", tmp=True, clean=False)
@@ -132,7 +139,7 @@ class Publication:
                     output = pypandoc.convert_file(
                         tmp_nb_executed,
                         "docx",
-                        outputfile=f"{tmp_str}{self.basename}_pub.docx",
+                        outputfile=f"{tmp_str}{self.basename}.docx",
                         extra_args=extra_args,
                         filters=filters,
                     )
@@ -141,9 +148,9 @@ class Publication:
                     self.write(to="ipynb-tmp", tmp=True, clean=False)
                     self.write(to="md", tmp=True, clean=False)
                     output = pypandoc.convert_file(
-                        f".tmp_{self.basename}_pub.md",
+                        f".tmp_{self.basename}.md",
                         "tex",
-                        outputfile=f"{tmp_str}{self.basename}_pub.tex",
+                        outputfile=f"{tmp_str}{self.basename}.tex",
                         filters=filters,
                     )
                     print(f"LaTeX write output: {output}")

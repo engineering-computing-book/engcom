@@ -1,55 +1,55 @@
-\phantomsection\label{51707e0a}
+\phantomsection\label{65b52fc7}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 """"Solution to Chapter 3 problem DN"""
 import numpy as np
 import matplotlib.pyplot as plt
 \end{minted}
 
-\phantomsection\label{cc61c683}
+\phantomsection\label{3a467c57}
 
-\phantomsection\label{5f4bd7b9}
+\phantomsection\label{59b3335c}
 \subsubsection{Introduction}\label{introduction}
 
 This program defines several mathematical functions as vectorized
 functions that can handle NumPy array inputs and plots them over the
 given domain using Matplotlib.
 
-\phantomsection\label{565e7abf}
+\phantomsection\label{897b6eb8}
 \subsubsection{Define Mathematical
 Functions}\label{define-mathematical-functions}
 
 Define $f(x) = x^2 + 3 x + 9$:
 
-\phantomsection\label{3aa97e92}
+\phantomsection\label{41e33a3a}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def f(x: np.ndarray) -> np.ndarray:
     return np.tanh(4 * np.sin(x))
 \end{minted}
 
-\phantomsection\label{a8cf6892}
+\phantomsection\label{aae57ad2}
 Define $g(x) = 1 + \sin^2 x$:
 
-\phantomsection\label{d37a1ab4}
+\phantomsection\label{7bf0bb7d}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def g(x: np.ndarray) -> np.ndarray:
     return np.sin(np.sqrt(x))
 \end{minted}
 
-\phantomsection\label{93340443}
+\phantomsection\label{2403e281}
 Define $h(x, y) = e^{-3 x} + \ln y$:
 
-\phantomsection\label{23b5d59e}
+\phantomsection\label{48c55692}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def h(x: np.ndarray) -> np.ndarray:
     return np.where(x >= 0, np.exp(-x) * np.sin(2 * np.pi * x), 0)
 \end{minted}
 
-\phantomsection\label{fe94a049}
+\phantomsection\label{3440d87d}
 \subsubsection{Plotting}\label{plotting}
 
 Define a plotting function:
 
-\phantomsection\label{daa06e7d}
+\phantomsection\label{2236fbcf}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 def plotter(fig, fun, limits, labels):
     x = np.linspace(limits[0], limits[1], 201)
@@ -59,16 +59,16 @@ def plotter(fig, fun, limits, labels):
     return fig
 \end{minted}
 
-\phantomsection\label{efa91b41}
+\phantomsection\label{68b02ff1}
 Plot $f(x)$:
 
-\phantomsection\label{20b0d4e9}
+\phantomsection\label{3c682367}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 fig, ax = plt.subplots()
 plotter(fig, fun=f, limits=(-5, 8), labels=("$x$", "$f(x)$"))
 \end{minted}
 
-\phantomsection\label{3f626489}
+\phantomsection\label{736d6911}
 \gdef\graphicslist{}%
 \begin{figure}[htbp]
 \centering
@@ -79,16 +79,16 @@ plotter(fig, fun=f, limits=(-5, 8), labels=("$x$", "$f(x)$"))
 \label{fig:publishing_with_makefile-figure-0}
 \end{figure}
 
-\phantomsection\label{e88b3fb7}
+\phantomsection\label{1175bdd1}
 Plot $g(x)$:
 
-\phantomsection\label{2ea0e5e8}
+\phantomsection\label{aeb25cc0}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 fig, ax = plt.subplots()
 plotter(fig, fun=g, limits=(0, 100), labels=("$x$", "$g(x)$"))
 \end{minted}
 
-\phantomsection\label{d4d0c3be}
+\phantomsection\label{e9a16f44}
 \gdef\graphicslist{}%
 \begin{figure}[htbp]
 \centering
@@ -99,16 +99,16 @@ plotter(fig, fun=g, limits=(0, 100), labels=("$x$", "$g(x)$"))
 \label{fig:publishing_with_makefile-figure-1}
 \end{figure}
 
-\phantomsection\label{ddd26118}
+\phantomsection\label{e9e1ffe7}
 Plot $h(x)$:
 
-\phantomsection\label{98cf54f1}
+\phantomsection\label{d90fd69c}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 fig, ax = plt.subplots()
 plotter(fig, fun=h, limits=(-2, 6), labels=("$x$", "$h(x)$"))
 \end{minted}
 
-\phantomsection\label{06327388}
+\phantomsection\label{4ed9f528}
 \gdef\graphicslist{}%
 \begin{figure}[htbp]
 \centering
@@ -119,7 +119,7 @@ plotter(fig, fun=h, limits=(-2, 6), labels=("$x$", "$h(x)$"))
 \label{fig:publishing_with_makefile-figure-2}
 \end{figure}
 
-\phantomsection\label{44e76862}
+\phantomsection\label{fa09f205}
 \nointerlineskip\nointerlineskip\begin{minted}[autogobble,samepage]{python}
 plt.show()
 \end{minted}
