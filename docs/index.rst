@@ -11,7 +11,6 @@ Welcome to Engcom's documentation!
    :caption: Contents:
 
    introduction
-   api
 
 Indices and tables
 ==================
