@@ -105,80 +105,83 @@ class Publication:
     def write(
         self, to: str, pdflatex: bool = True, tmp: bool = False, clean: bool = True
     ):
-        """Writes the publication to a file of type `to`.
+        """Writes the publication to a file of type ``to``.
 
-        With two types of output file (argument `to`), `"docx"` and `"pdf"`, are standalone in the sense
+        With two types of output file (argument ``to``), ``"docx"`` and ``"pdf"``, are standalone in the sense
         that they are complete documents ready for distribution. With the other two
-        types of output file, `"md"` and `"tex"`, a document intended to be included in
+        types of output file, ``"md"`` and ``"tex"``, a document intended to be included in
         another document is created.
 
-        To use `to="pdf"` with `pdflatex=True` (default), you must have LaTeX installed.
-        Any will do, but our favorite is [TeX Live](https://www.tug.org/texlive/), which works on all
+        To use ``to="pdf"`` with ``pdflatex=True`` (default), you must have LaTeX installed.
+        Any will do, but our favorite is `TeX Live <https://www.tug.org/texlive/>`_, which works on all
         major operating systems.
-        To use `to="pdf"` with `pdflatex=False`, you must have Microsoft Word installed.
-        The use here of the `docx2pdf` package is buggy, so mileage may vary.
+        To use ``to="pdf"`` with ``pdflatex=False``, you must have Microsoft Word installed.
+        The use here of the ``docx2pdf`` package is buggy, so mileage may vary.
 
         Args:
-            to: Format to write to (`"pdf"`, `"docx"`, `"md"`, `"tex"`)
-            pdflatex: Use LaTeX to create a pdf (default: `True`)
+            to: Format to write to (``"pdf"``, ``"docx"``, ``"md"``, ``"tex"``)
+            pdflatex: Use LaTeX to create a pdf (default: ``True``)
             tmp: Create a temporary output files
-                (may be deleted by `clean`; default: `False`)
-            clean: Delete temporary output files (default: `True`)
+                (may be deleted by ``clean``; default: ``False``)
+            clean: Delete temporary output files (default: ``True``)
 
         Returns:
-            `None`
+            ``None``
 
         Example:
-            It can be used from within the file to be published, call it `pub.py` as follows:
+            It can be used from within the file to be published, call it ``pub.py`` as follows:
 
-            ```python
-            # %% This is a code cell
-            x = 3
+            .. code-block:: python
 
-            # %% [markdown]
-            # Here is a Markdown cell with some math: $x = 4$.
+                # %% This is a code cell
+                x = 3
 
-            # %% Another code cell
-            x**2
+                # %% [markdown]
+                # Here is a Markdown cell with some math: $x = 4$.
 
-            # %% [markdown]
-            ## Here Is a Header
-            # And some regular text.
+                # %% Another code cell
+                x**2
 
-            # %% Another code cell
-            x**3 + 1
+                # %% [markdown]
+                ## Here Is a Header
+                # And some regular text.
 
-            # %% tags=["active-py"]
-            # This cell will not appear in the output due to its tag
-            import engcom
-            pub = engcom.Publication(title="A Title", author="Your Name")
-            pub.write(to="pdf")
-            ```
+                # %% Another code cell
+                x**3 + 1
 
-            This publishes a pdf file `pub.pdf` that appears as follows:
+                # %% tags=["active-py"]
+                # This cell will not appear in the output due to its tag
+                import engcom
+                pub = engcom.Publication(title="A Title", author="Your Name")
+                pub.write(to="pdf")
 
-            ![A published pdf file.](/resources/pub.png)
+
+            This publishes a pdf file ``pub.pdf`` that appears as follows:
+
+            .. figure:: /figures/pub.png
+
+                A published pdf file.
 
             Alternatively, the last cell could be left off and another file could be used to publish it:
 
-            ```python
-            import engcom
-            pub = engcom.Publication(
-                source_filename="pub.py", title="A Title", author="Your Name"
-            )
-            pub.write(to="pdf")
-            ```
+            .. code-block:: python
 
-            Finally, a third alternative is to use the `publish` CLI from a terminal window:
+                import engcom
+                pub = engcom.Publication(
+                    source_filename="pub.py", title="A Title", author="Your Name"
+                )
+                pub.write(to="pdf")
 
-            ```bash
-            publish pub.py pdf --title "A Title" --author "Your Name"
-            ```
+            Finally, a third alternative is to use the ``publish`` CLI from a terminal window:
 
-            In this example, we have used the `"pdf"` output for publishing.
-            This requires [LaTeX to be installed](#Installing-LaTeX-for-Publishing-PDF-Files).
-            Alternatively, `"docx"` could be used to create a Microsoft Word document.
-            Finally, Markdown `"md"` and LaTeX `"tex"` can be used if you would like to include the published file in another document.
+            .. code-block:: bash
+
+                publish pub.py pdf --title "A Title" --author "Your Name"
+
+            In this example, we have used the ``"pdf"`` output for publishing.
+            This requires installing LaTeX; see :ref:`Installing LaTeX for Publishing PDF Files`.
+            Alternatively, ``"docx"`` could be used to create a Microsoft Word document.
+            Finally, Markdown ``"md"`` and LaTeX ``"tex"`` can be used if you would like to include the published file in another document.
         """
         if self.nowrite:
             return None

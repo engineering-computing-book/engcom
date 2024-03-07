@@ -18,8 +18,12 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
+    "autoapi.extension",
+    "sphinx.ext.autodoc.typehints",
+    "sphinx.ext.autosectionlabel",
 ]
-autosummary_generate = True  # Turn on sphinx.ext.autosummary
+autoapi_dirs = ["../engcom"]
+autodoc_typehints = "description"
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
