@@ -9,9 +9,6 @@ parser.add_argument(
 )
 parser.add_argument("to", type=str, help="Destination type (md, pdf, or docx)")
 parser.add_argument(
-    "--source_kind", type=str, required=False, default="script", help="script or ipynb"
-)
-parser.add_argument(
     "--title", type=str, required=False, default=None, help="Title of the document"
 )
 parser.add_argument(
@@ -32,7 +29,6 @@ def main():
         title=args.title,
         author=args.author,
         source_filename=args.source_filename,
-        source_kind=args.source_kind,
     )
     pub.write(to=args.to, pdflatex=args.pdflatex)
     return 0
