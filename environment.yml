@@ -9,7 +9,6 @@ dependencies:
   - cachecontrol=0.12.11=py311hca03da5_1
   - certifi=2024.2.2=py311hca03da5_0
   - cffi=1.16.0=py311h80987f9_0
-  - charset-normalizer=2.0.4=pyhd3eb1b0_0
   - cleo=2.1.0=py311hca03da5_0
   - crashtest=0.4.1=py311hca03da5_0
   - cryptography=42.0.2=py311hd4332d6_0
@@ -17,7 +16,6 @@ dependencies:
   - dulwich=0.21.3=py311h80987f9_0
   - filelock=3.13.1=py311hca03da5_0
   - html5lib=1.1=pyhd3eb1b0_0
-  - idna=3.4=py311hca03da5_0
   - importlib-metadata=7.0.1=py311hca03da5_0
   - importlib_metadata=7.0.1=hd3eb1b0_0
   - jaraco.classes=3.2.1=pyhd3eb1b0_0
@@ -60,7 +58,6 @@ dependencies:
   - tomlkit=0.11.1=py311hca03da5_0
   - trove-classifiers=2023.10.18=py311hca03da5_0
   - tzdata=2024a=h04d1e81_0
-  - urllib3=1.26.18=py311hca03da5_0
   - virtualenv=20.17.1=py311hca03da5_0
   - webencodings=0.5.1=py311hca03da5_1
   - wheel=0.41.2=py311hca03da5_0
@@ -69,23 +66,31 @@ dependencies:
   - zipp=3.17.0=py311hca03da5_0
   - zlib=1.2.13=h5a0b063_0
   - pip:
+      - alabaster==0.7.16
+      - anyascii==0.3.2
       - appnope==0.1.4
       - appscript==1.2.5
+      - astroid==3.1.0
       - asttokens==2.4.1
       - attrs==23.2.0
+      - babel==2.14.0
       - beautifulsoup4==4.12.3
       - bleach==6.1.0
+      - charset-normalizer==3.3.2
       - comm==0.2.1
       - contourpy==1.2.0
       - cycler==0.12.1
       - debugpy==1.8.1
       - decorator==5.1.1
       - defusedxml==0.7.1
+      - docutils==0.20.1
       - docx2pdf==0.1.8
       - engcom==0.1.7
       - executing==2.0.1
       - fastjsonschema==2.19.1
       - fonttools==4.49.0
+      - idna==3.6
+      - imagesize==1.4.1
       - ipykernel==6.29.3
       - ipython==8.22.2
       - ipywidgets==8.1.2
@@ -115,6 +120,7 @@ dependencies:
       - packaging==23.2
       - pandocfilters==1.5.1
       - parso==0.8.3
+      - pbr==6.0.0
       - pexpect==4.9.0
       - pillow==10.2.0
       - platformdirs==4.2.0
@@ -130,7 +136,17 @@ dependencies:
       - referencing==0.33.0
       - rpds-py==0.18.0
       - scipy==1.12.0
+      - snowballstemmer==2.2.0
       - soupsieve==2.5
+      - sphinx==7.2.6
+      - sphinx-autoapi==3.0.0
+      - sphinxcontrib-apidoc==0.5.0
+      - sphinxcontrib-applehelp==1.0.8
+      - sphinxcontrib-devhelp==1.0.6
+      - sphinxcontrib-htmlhelp==2.0.5
+      - sphinxcontrib-jsmath==1.0.1
+      - sphinxcontrib-qthelp==1.0.7
+      - sphinxcontrib-serializinghtml==1.1.10
       - stack-data==0.6.3
       - sympy==1.12
       - tinycss2==1.2.1
@@ -138,5 +154,6 @@ dependencies:
       - tornado==6.4
       - tqdm==4.66.2
       - traitlets==5.14.1
+      - urllib3==1.26.18
       - wcwidth==0.2.13
       - widgetsnbextension==4.0.10
