@@ -702,7 +702,7 @@ local function celler(el)
     end
     return {pandoc.Para(title), el}
   else
-    return el 
+    return el.content
   end
 end
 

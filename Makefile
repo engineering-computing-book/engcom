@@ -1,4 +1,8 @@
-.PHONY: pypi conda
+.PHONY: pypi conda all
+
+nothing: # Default to nothing
+
+all: pypi conda
 
 pypi:
 	poetry lock

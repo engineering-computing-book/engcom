@@ -203,6 +203,7 @@ class Publication:
                     output = pypandoc.convert_file(
                         tmp_nb_executed,
                         "md",
+                        format="ipynb+raw_markdown",
                         outputfile=f"{tmp_str}{self.basename}.md",
                         filters=filters,
                     )

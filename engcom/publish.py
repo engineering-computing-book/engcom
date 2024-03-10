@@ -21,6 +21,8 @@ parser.add_argument(
     default=True,
     help="Use pdflatex to build pdf (default: True)",
 )
+parser.add_argument("--noclean", default=False, action="store_true")
+parser.add_argument("--clean", dest="noclean", action="store_false")
 
 
 def main():
@@ -30,5 +32,5 @@ def main():
         author=args.author,
         source_filename=args.source_filename,
     )
-    pub.write(to=args.to, pdflatex=args.pdflatex)
+    pub.write(to=args.to, pdflatex=args.pdflatex, clean=(not args.noclean))
     return 0
