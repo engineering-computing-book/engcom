@@ -246,3 +246,21 @@ def thermal_conductivity(category=None, paired=True):
     else:
         data = data_all
     return data
+
+
+def game_of_life_starts(key: str) -> list:
+    """Returns a list with a Conway's Game of Life starting state (alive: 1, dead: 0)"""
+    starts = {
+        "gosper_glider": [
+            [000000000000000000000000100000000000],
+            [000000000000000000000010100000000000],
+            [000000000000110000001100000000000011],
+            [000000000001000100001100000000000011],
+            [110000000010000010001100000000000000],
+            [110000000010001011000010100000000000],
+            [000000000010000010000000100000000000],
+            [000000000001000100000000000000000000],
+            [000000000000110000000000000000000000],
+        ]
+    }
+    return starts[key]

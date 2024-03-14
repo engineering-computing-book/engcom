@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "engcom"
-version = "0.1.14"
+version = "0.1.15"
 description = "Tools for engineering computing"
 authors = ["Rico Picone <rpicone@stmartin.edu>"]
 readme = "README.md"
