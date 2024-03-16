@@ -8,7 +8,7 @@ import sys
 params = {
     "pgf.texsystem": "lualatex",
     "font.family": "serif",  # use serif/main font for text elements
-    "font.serif": ["Palatino"],
+    "font.serif": ["Palatino Linotype", "Palatino", "Times New Roman"],
     "mathtext.fontset": "cm",
     "pgf.rcfonts": True,    # don't setup fonts from rc parameters
     "axes.formatter.use_mathtext": True,
