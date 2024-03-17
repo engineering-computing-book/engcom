@@ -9,7 +9,7 @@
 project = "Engcom"
 copyright = "2024, Rico A. R. Picone"
 author = "Rico A. R. Picone"
-release = "0.1.12"
+release = "0.1.20"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

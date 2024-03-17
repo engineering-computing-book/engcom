@@ -6,19 +6,19 @@ import engcom.tufte
 
 fignum = 0
 
-def figure_markup(filename, caption, label):
-    return Markdown(f"![{caption}]({filename}){{#{label} .figure .pgf}}")
+def figure_markup(filename, caption, label, ext):
+    return Markdown(f"![{caption}]({filename}){{#{label} .figure .{ext}}}")
 
-def show(fig, filename=None, caption="", label=None, figsize=(4, 4/1.618)):
+def show(fig, filename=None, ext="pgf", caption="", label=None, figsize=(4, 4/1.618)):
     global fignum
     plt.figure(fig)
     ax = plt.gca()
     fig.set_size_inches(*figsize)
     if filename is None:
-        filename = f"figure-{fignum}.pgf"
+        filename = f"figure-{fignum}.{ext}"
         fignum += 1
-    elif not filename.endswith(".pgf"):
-        filename = filename + ".pgf"
+    elif not filename[-4] == ("."):
+        filename = filename + f".{ext}"
     filename = pathlib.Path(filename)
     parent = filename.resolve().parent.name
     grandparent = filename.resolve().parent.parent.name
@@ -26,7 +26,7 @@ def show(fig, filename=None, caption="", label=None, figsize=(4, 4/1.618)):
     # ax.xaxis.label.set(ha='left',) # the label can get cut off
     ax.yaxis.set_label_coords(0, 1.02)
     ax.yaxis.label.set(rotation='horizontal', ha='center',)
-    plt.savefig(filename, bbox_inches='tight')
+    plt.savefig(filename, bbox_inches='tight', dpi=600)
     if label is None:
         label = f"fig:{parent}-{filename.stem}"
-    return figure_markup(f"{grandparent}/{parent}/{filename}", caption, label)
+    return figure_markup(f"{grandparent}/{parent}/{filename}", caption, label, ext)
