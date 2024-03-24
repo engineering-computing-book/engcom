@@ -9,7 +9,7 @@ fignum = 0
 def figure_markup(filename, caption, label, ext):
     return Markdown(f"![{caption}]({filename}){{#{label} .figure .{ext}}}")
 
-def show(fig, filename=None, ext="pgf", caption="", label=None, figsize=(4, 4/1.618)):
+def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsize=(4, 4/1.618)):
     global fignum
     plt.figure(fig)
     ax = plt.gca()
