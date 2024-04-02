@@ -24,8 +24,8 @@ def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsiz
     grandparent = filename.resolve().parent.parent.name
     # ax.xaxis.set_label_coords(1.02, 0) # the label can get cut off
     # ax.xaxis.label.set(ha='left',) # the label can get cut off
-    ax.yaxis.set_label_coords(0, 1.02)
-    ax.yaxis.label.set(rotation='horizontal', ha='center',)
+    # ax.yaxis.set_label_coords(0, 1.02)
+    # ax.yaxis.label.set(rotation='horizontal', ha='center',)
     plt.savefig(filename, bbox_inches='tight', dpi=600)
     if label is None:
         label = f"fig:{parent}-{filename.stem}"
