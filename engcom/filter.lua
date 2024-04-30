@@ -702,7 +702,27 @@ local function celler(el)
     end
     return {pandoc.Para(title), el}
   else
-    return el.content
+    el = el.content
+    if tags ~= nil then -- add cell tags to code block classes
+      tags = string.gsub(tags, "%[", "")
+      tags = string.gsub(tags, "%]", "")
+      tags = string.gsub(tags, '_', "-")
+      print(tags)
+      tags = load("return {"..tags.."}")()
+      for ks, vs in pairs(el) do
+          -- print(el.classes)
+          if vs.classes == nil then
+            vs.classes = {}
+          end
+          print(vs.classes)
+          for k, v in pairs(tags) do
+            vs.classes[#vs.classes+1] = v
+          end
+          el[ks] = vs
+      end
+      print(el)
+    end
+    return el
   end
 end
 
