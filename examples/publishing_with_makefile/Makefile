@@ -18,4 +18,4 @@ solution: solution.md # Default document(s) to make
 	publish $< docx --title "$(title)" --author "$(author)"
 
 %.pdf: %.py
-	publish $< pdf --title "$(title)" --author "$(author)"
+	publish $< pdf --pdflatex True --title "$(title)" --author "$(author)"

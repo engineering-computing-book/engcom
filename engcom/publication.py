@@ -211,6 +211,7 @@ class Publication:
                 elif to == "pdf":
                     if pdflatex:
                         extra_args = []
+                        extra_args.append("--pdf-engine=lualatex")
                         if self.title is not None:
                             extra_args.append(f"--metadata=title:{self.title}")
                             extra_args.append(f"--metadata=subtitle:{self.subtitle}")
