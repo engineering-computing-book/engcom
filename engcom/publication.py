@@ -91,7 +91,7 @@ class Publication:
         exporter.register_preprocessor(ExecutePreprocessor(config=c), True)
         exporter.register_preprocessor(TagRemovePreprocessor(config=c), True)
         output = NotebookExporter(config=c).from_notebook_node(nb)
-        with open(f".tmp_{self.basename}_executed.ipynb", "w") as f:
+        with open(f".tmp_{self.basename}_executed.ipynb", "w", encoding="utf-8") as f:
             f.write(output[0])
 
     def filter_absolute_path(self):
