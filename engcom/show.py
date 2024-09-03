@@ -9,7 +9,7 @@ fignum = 0
 def figure_markup(filename, caption, label, ext):
     return Markdown(f"![{caption}]({filename}){{#{label} .figure .{ext}}}")
 
-def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsize=(4, 4/1.618)):
+def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsize=(4, 4/1.618), lineage=False):
     global fignum
     plt.figure(fig)
     ax = plt.gca()
@@ -29,4 +29,7 @@ def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsiz
     plt.savefig(filename, bbox_inches='tight', dpi=600)
     if label is None:
         label = f"fig:{parent}-{filename.stem}"
-    return figure_markup(f"{grandparent}/{parent}/{filename}", caption, label, ext)
+    if lineage:
+        return figure_markup(f"{grandparent}/{parent}/{filename}", caption, label, ext)
+    else:
+        return figure_markup(filename, caption, label, ext)

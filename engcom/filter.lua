@@ -888,7 +888,7 @@ function figurer(el,nofloat)
     return pandoc.RawInline('latex', fig_tex)
   elseif FORMAT:match 'html' then
     -- deal with filename stuff
-    local stripped = string.gsub(src,"common-rtcbook/",'')
+    local stripped = string.gsub(src,"common/",'')
     local path
     local file
     local ext
