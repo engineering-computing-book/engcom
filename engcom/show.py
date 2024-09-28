@@ -9,7 +9,7 @@ fignum = 0
 def figure_markup(filename, caption, label, ext):
     return Markdown(f"![{caption}]({filename}){{#{label} .figure .{ext}}}")
 
-def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsize=(4, 4/1.618), lineage=False):
+def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsize=(4, 4/1.618), lineage=False, pad_inches=0.0):
     global fignum
     plt.figure(fig)
     ax = plt.gca()
@@ -27,11 +27,11 @@ def show(fig, filename=None, ext="pgf", caption="A caption.", label=None, figsiz
     # ax.yaxis.set_label_coords(0, 1.02)
     # ax.yaxis.label.set(rotation='horizontal', ha='center',)
     if ext == "pdf":
-        plt.savefig(filename, bbox_inches='tight', dpi=600, backend="pgf")
+        plt.savefig(filename, bbox_inches='tight', pad_inches=pad_inches, dpi=600, backend="pgf")
     else:
-        plt.savefig(filename, bbox_inches='tight', dpi=600)
+        plt.savefig(filename, bbox_inches='tight', pad_inches=pad_inches, dpi=600)
     if ext == "pgf" or ext == "pdf":
-        plt.savefig(filename.with_suffix(".svg"), bbox_inches='tight', dpi=600)
+        plt.savefig(filename.with_suffix(".svg"), bbox_inches='tight', pad_inches=pad_inches, dpi=600)
     if label is None:
         label = f"fig:{parent}-{filename.stem}"
     if lineage:
